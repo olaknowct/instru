@@ -11,3 +11,11 @@ exports.getAllUsers = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.createUsers = async (req, res) => {
+  const { name } = req.body;
+  try {
+    const result = await db.query('INSERT INTO users (name) VALUES (?)', [name]);
+    res.status(200).json({ users: result });
+  } catch (error) {}
+};

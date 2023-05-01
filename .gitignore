@@ -1,4 +1,5 @@
 node_modules
 .serverless
-serverless.yml
 README.md
+getUser
+serverless.yml
