@@ -1,0 +1,12 @@
+{
+  "name": "serverless-instru",
+  "version": "1.0.0",
+  "description": "Instruments ecommerce project",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "serverless-http": "^3.2.0",
+    "serverless-mysql": "^1.5.5"
+  }
+}
