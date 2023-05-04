@@ -1,3 +1,8 @@
+const {
+  selectUserByIdQuery,
+  selectAllUsersQuery,
+  insertUserQuery,
+} = require('../queries/users.query');
 const db = require('../utils/dbConnect');
 
 const Joi = require('joi');
@@ -14,8 +19,7 @@ const User = {
     try {
       Joi.attempt(id, Joi.number());
 
-      const results = await db.query('SELECT * FROM users WHERE id = ?', [id]);
-
+      const results = await db.query(selectUserByIdQuery, [id]);
       return results;
     } catch (error) {
       throw new Error(error);
@@ -24,7 +28,7 @@ const User = {
 
   async getAll() {
     try {
-      const results = await db.query('SELECT * FROM users');
+      const results = await db.query(selectAllUsersQuery);
       return results;
     } catch (error) {
       throw new Error(error);
@@ -37,8 +41,6 @@ const User = {
       const { error } = userSchema.validate(userDataObj);
 
       if (error) throw new Error(error);
-
-      const insertUserQuery = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
 
       const userDataArray = Object.values(userDataObj);
 
