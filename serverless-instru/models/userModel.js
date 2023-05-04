@@ -1,18 +1,11 @@
+const Joi = require('joi');
 const {
   selectUserByIdQuery,
   selectAllUsersQuery,
   insertUserQuery,
 } = require('../queries/users.query');
 const db = require('../utils/dbConnect');
-
-const Joi = require('joi');
-
-const userSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
-  passwordConfirm: Joi.ref('password'),
-});
+const { userSchema } = require('../validation/userValidation');
 
 const User = {
   async get(id) {
@@ -38,7 +31,7 @@ const User = {
   async create(userDataObj) {
     try {
       // validate
-      const { error } = userSchema.validate(userDataObj);
+      const { error } = await userSchema(Joi, db).validateAsync(userDataObj);
 
       if (error) throw new Error(error);
 
@@ -53,16 +46,6 @@ const User = {
       throw new Error(error);
     }
   },
-
-  // async create(data) {
-  //   try {
-  //     const result = await db.query('INSERT INTO users SET ?', data);
-  //     return { id: result.insertId };
-  //   } catch (error) {
-  //     console.error(error);
-  //     throw new Error('Failed to create user');
-  //   }
-  // },
 };
 
 module.exports = User;
