@@ -39,6 +39,20 @@ exports.signUp = async (req, res, next) => {
   }
 };
 
+exports.updatePoints = async (req, res) => {
+  try {
+    const id = req.params.userId;
+    const { points, operation } = req.body;
+
+    const user = await User.updatePoints(id, points, operation);
+
+    res.status(200).json({ user: user });
+  } catch (error) {
+    console.log('error 💥 ', error);
+    res.status(404).json({ error: error.message });
+  }
+};
+
 // exports.createUsers = async (req, res) => {
 //   const { name } = req.body;
 //   try {

@@ -3,6 +3,7 @@ const {
   selectUserByIdQuery,
   selectAllUsersQuery,
   insertUserQuery,
+  updateUserPointsQuery,
 } = require('../queries/users.query');
 const db = require('../utils/dbConnect');
 const { userSchema } = require('../validation/userValidation');
@@ -42,6 +43,25 @@ const User = {
 
       const results = await db.query(insertUserQuery, userDataArray);
       return results;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
+  async updatePoints(id, points, operation) {
+    try {
+      Joi.attempt(id, Joi.number());
+      Joi.attempt(points, Joi.number());
+
+      const results = await db.query(updateUserPointsQuery, [
+        operation,
+        points,
+        operation,
+        points,
+        id,
+      ]);
+
+      return results.data;
     } catch (error) {
       throw new Error(error);
     }

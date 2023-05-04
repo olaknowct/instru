@@ -12,4 +12,5 @@ module.exports = {
   getUser: serverless(app),
   getUsers: serverless(app),
   createUser: serverless(app),
+  updateUserPoints: serverless(app),
 };
